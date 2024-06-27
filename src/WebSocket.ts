@@ -8,7 +8,7 @@ const WebSocketComponent = () => {
     const socket = new WebSocket("wss://eventsub.wss.twitch.tv/ws?keepalive_timeout_seconds=60")
 
     // Connection opened
-    socket.addEventListener("open", (event) => {
+    socket.addEventListener("open", () => {
       socket.send("Connection established")
     })
 
