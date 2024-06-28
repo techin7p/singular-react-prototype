@@ -2,6 +2,7 @@ import {useEffect} from "react"
 import "./App.css"
 import WebSocket from "./WebSocket"
 import {getAuthUrl, getUsers} from "./helpers/auth"
+import DeleteSubscription from "./DeleteSubscription"
 
 function App() {
   const currentUrl = window.location.href
@@ -26,6 +27,7 @@ function App() {
         <a href={getAuthUrl()}>Connect with Twitch</a>
         <button onClick={() => getUsers()}>Get Users</button>
       </div>
+      <DeleteSubscription />
       <WebSocket />
     </>
   )

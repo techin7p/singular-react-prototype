@@ -3,16 +3,16 @@ export const getAuthUrl = () => {
   console.log(import.meta.env);
   const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_REDIRECT_URI;
-  const scopes = ["user:read:email", "moderator:read:followers", "user:read:chat", "user:bot", "channel:bot"];
+  const scopes = ["user:read:email", "moderator:read:followers", "user:read:chat", "user:bot", "channel:bot", "moderation:read", "channel:manage:moderators"];
 
   return `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scopes.join("+")}`;
 };
 
 export const getUsers = async () => {
-  const response = await fetch("https://api.twitch.tv/helix/users", {
+  const response = await fetch("https://api.twitch.tv/helix/eventsub/subscriptions", {
     headers: {
       "Client-ID": import.meta.env.VITE_TWITCH_CLIENT_ID,
-      "Authorization": `Bearer odj3i4efwbisbgcrt2xac2vf1j4d6d`,
+      "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
     },
   });
 
