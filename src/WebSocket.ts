@@ -20,8 +20,7 @@ const WebSocketComponent = () => {
       const data = JSON.parse(event.data)
       if (data?.metadata?.message_type === "session_welcome") {
         const sessionId = data.payload.session.id
-        const connectedAt = data.payload.session.connected_at
-        await subscribeFollow(sessionId, connectedAt);
+        await subscribeFollow(sessionId);
       }
     })
 
@@ -36,7 +35,6 @@ const WebSocketComponent = () => {
 
     // kill app after max attempts, about 2.5 hours of trying
     if (connectAttempt > 12) {
-      document.documentElement.classList.add('error');
       return;
     }
 
