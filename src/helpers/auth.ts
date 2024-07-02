@@ -1,6 +1,5 @@
 
 export const getAuthUrl = () => {
-  console.log(import.meta.env);
   const clientId = import.meta.env.VITE_TWITCH_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_REDIRECT_URI;
   const scopes = ["user:read:email", "moderator:read:followers", "user:read:chat", "user:bot", "channel:bot", "moderation:read"];

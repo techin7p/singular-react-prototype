@@ -21,6 +21,7 @@ function App() {
       console.error("Access token not found in the URL.")
     }
   }, [accessToken])
+
   return (
     <>
       <div>

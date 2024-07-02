@@ -61,4 +61,6 @@ export const subscribe = async ({ type, version, condition, sessionId}: Subscrib
   })
   const data = await response.json();
   console.log(data);
+
+  return data;
 }
