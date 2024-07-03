@@ -1,7 +1,7 @@
 import {useEffect} from "react"
 import "./App.css"
 import WebSocket from "./WebSocket"
-import {getAuthUrl, getUsers} from "./helpers/auth"
+import {getAuthUrl, getUserSubscriptions, getUsers} from "./helpers/auth"
 import DeleteSubscription from "./DeleteSubscription"
 
 function App() {
@@ -25,8 +25,7 @@ function App() {
   return (
     <>
       <div>
-        <a href={getAuthUrl()}>Connect with Twitch</a>
-        <button onClick={() => getUsers()}>Get Users</button>
+        <button onClick={() => getUserSubscriptions()}>Get User Subscriptions</button>
       </div>
       <DeleteSubscription />
       <WebSocket />

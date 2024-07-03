@@ -1,35 +1,46 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { removeSubscription, subscribe } from "../helpers/eventsub/subscribe"
 import useWebSocket from "react-use-websocket"
-
-const subscriptions = [
-  {
-    type: "channel.follow",
-    version: "2",
-    condition: {
-      broadcaster_user_id: "731867899",
-      moderator_user_id: "731867899",
-    },
-  },
-  // {
-  //   type: "channel.subscribe",
-  //   version: "1",
-  //   condition: {
-  //     broadcaster_user_id: "731867899",
-  //   },
-  // },
-  {
-    type: "channel.chat.message",
-    version: "1",
-    condition: {
-      broadcaster_user_id: "731867899",
-      user_id: "731867899",
-    },
-  },
-]
+import { getUsers } from "../helpers/auth"
 
 export const useSubscriptions = () => {
   const [subIds, setSubIds] = useState<string[]>([])
+  const [user, setUser] = useState<any>(null)
+
+  const subscriptions = [
+    {
+      type: "channel.follow",
+      version: "2",
+      condition: {
+        broadcaster_user_id: user?.id,
+        moderator_user_id: user?.id,
+      },
+    },
+    // {
+    //   type: "channel.subscribe",
+    //   version: "1",
+    //   condition: {
+    //     broadcaster_user_id: "731867899",
+    //   },
+    // },
+    {
+      type: "channel.chat.message",
+      version: "1",
+      condition: {
+        broadcaster_user_id: user?.id,
+        user_id: user?.id,
+      },
+    },
+  ]
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
+  const getUser = async () => {
+    const data = await getUsers();
+    setUser(data.data[0])
+  }
 
   const { lastJsonMessage, readyState } = useWebSocket("wss://eventsub.wss.twitch.tv/ws?keepalive_timeout_seconds=60", {
     onMessage: async (event) => {
@@ -45,7 +56,7 @@ export const useSubscriptions = () => {
       unsubscribeAll()
     },
     shouldReconnect: () => true
-  });
+  }, !!user);
 
   const subscribeAll = async (sessionId: string) => {
     const subIds = []
@@ -64,5 +75,5 @@ export const useSubscriptions = () => {
     }
   }
 
-  return { lastJsonMessage, readyState };
+  return { user, lastJsonMessage, readyState };
 }
